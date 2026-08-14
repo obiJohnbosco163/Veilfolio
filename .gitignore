@@ -1,5 +1,61 @@
-target
-.snfoundry_cache/
-snfoundry_trace/
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+*.sublime-workspace
+
+# Testing
 coverage/
-profile/
+.nyc_output/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.eslintcache
+.turbo/
+
+# Screenshots/Assets (keep committed)
+# Screenshot*.png is intentional exception for branding
+
+# Private keys / secrets
+*.pem
+*.key
+secret*
+
+# Blockchain
+target/
+artifacts/

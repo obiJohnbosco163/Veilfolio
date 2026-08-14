@@ -1,0 +1,29 @@
+{
+  "name": "veilfolio",
+  "version": "0.1.0",
+  "description": "Privacy-first portfolio layer for Starknet powered by STRK20",
+  "private": true,
+  "workspaces": [
+    "app",
+    "contracts"
+  ],
+  "scripts": {
+    "dev": "npm -w app run dev",
+    "build": "npm -w app run build && npm -w contracts run build",
+    "start": "npm -w app run start",
+    "test": "npm -w app run test && npm -w contracts run test",
+    "lint": "npm -w app run lint",
+    "contracts:test": "npm -w contracts run test",
+    "contracts:build": "npm -w contracts run build",
+    "contracts:dev": "npm -w contracts run dev"
+  },
+  "keywords": [
+    "starknet",
+    "privacy",
+    "portfolio",
+    "strk20",
+    "cairo"
+  ],
+  "author": "Veilfolio Team",
+  "license": "MIT"
+}
