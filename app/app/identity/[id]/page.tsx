@@ -180,29 +180,21 @@ export default function IdentityDetailPage() {
           {/* Header */}
           <div className="relative p-6 sm:p-8">
             <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(0,212,170,0.05), rgba(124,92,252,0.05), rgba(56,189,248,0.05))' }} />
-            <div className="relative flex flex-col sm:flex-row justify-between items-start gap-4">
-              <div className="flex items-center gap-4">
-                <div
-                  className={`w-14 h-14 rounded-xl flex items-center justify-center shrink-0 ring-2 ring-accent/20 bg-gradient-to-br ${typeColor.replace('text-', 'from-')}/15 to-transparent`}
-                >
-                  <svg className={`w-7 h-7 ${typeColor}`} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d={typeIcon} />
-                  </svg>
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-foreground tracking-tight">{identity.name || humanReadableIdentityName(typeLabel, Number(identity.id))}</h1>
-                  <div className="flex items-center gap-2 mt-1 flex-wrap">
-                    <span className={`text-xs font-bold uppercase tracking-wider ${typeColor}`}>{typeLabel}</span>
-                    <span className="text-muted text-xs">
-                      {IDENTITY_TYPE_PURPOSE[identity.identity_type] || 'General purpose identity'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col items-start sm:items-end gap-1">
-                <div className="flex items-center gap-2">
+            <div className="relative">
+              {/* Name + Purpose */}
+              <h1 className="text-2xl font-bold text-foreground tracking-tight">{identity.name || humanReadableIdentityName(typeLabel, Number(identity.id))}</h1>
+              {(IDENTITY_TYPE_PURPOSE[identity.identity_type]) && (
+                <p className="text-sm text-muted mt-1">{IDENTITY_TYPE_PURPOSE[identity.identity_type]}</p>
+              )}
+              {/* Meta row: ID, Type, Status, Created */}
+              <div className="flex items-center gap-3 mt-3 flex-wrap">
+                <span className="text-xs font-mono text-muted">#{identity.id.toString()}</span>
+                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${typeColor} bg-surface`}>
+                  {typeLabel}
+                </span>
+                <div className="flex items-center gap-1.5">
                   <div className={`w-2 h-2 rounded-full ${identity.is_active ? 'bg-success' : 'bg-muted/50'}`} />
-                  <span className="text-xs text-muted uppercase tracking-wider font-medium">{identity.is_active ? 'Active' : 'Inactive'}</span>
+                  <span className="text-[10px] text-muted uppercase tracking-wider font-medium">{identity.is_active ? 'Active' : 'Inactive'}</span>
                 </div>
                 <span className="text-[11px] text-muted">Created {createdLabel}</span>
               </div>
@@ -319,20 +311,12 @@ export default function IdentityDetailPage() {
                     </div>
                     <div className="flex gap-3">
                       <a
-                        href={`https://sepolia.starkscan.co/contract/${IDENTITY_MANAGER_ADDRESS}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[11px] text-accent hover:underline"
-                      >
-                        Starkscan &rarr;
-                      </a>
-                      <a
                         href={`https://sepolia.voyager.online/contract/${IDENTITY_MANAGER_ADDRESS}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[11px] text-accent hover:underline"
                       >
-                        Voyager &rarr;
+                        View on Voyager &rarr;
                       </a>
                     </div>
                   </div>
@@ -352,10 +336,7 @@ export default function IdentityDetailPage() {
                     </div>
                     <div className="flex justify-between items-center px-4 py-3">
                       <span className="text-xs text-muted">Contract</span>
-                      <div className="flex gap-3">
-                        <a href={`https://sepolia.starkscan.co/contract/${IDENTITY_MANAGER_ADDRESS}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-accent hover:underline">Starkscan</a>
-                        <a href={`https://sepolia.voyager.online/contract/${IDENTITY_MANAGER_ADDRESS}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-accent hover:underline">Voyager</a>
-                      </div>
+                      <a href={`https://sepolia.voyager.online/contract/${IDENTITY_MANAGER_ADDRESS}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-accent hover:underline">View on Voyager</a>
                     </div>
                   </div>
                 </div>
@@ -390,24 +371,14 @@ export default function IdentityDetailPage() {
                             <p className="text-sm font-bold text-foreground">{activity.amount}</p>
                           </div>
                           {activity.txHash && (
-                            <div className="flex gap-3 mt-1">
-                              <a
-                                href={`https://sepolia.starkscan.co/tx/${activity.txHash}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[10px] text-accent font-mono inline-block hover:underline"
-                              >
-                                Starkscan
-                              </a>
-                              <a
-                                href={`https://sepolia.voyager.online/tx/${activity.txHash}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[10px] text-accent font-mono inline-block hover:underline"
-                              >
-                                Voyager
-                              </a>
-                            </div>
+                            <a
+                              href={`https://sepolia.voyager.online/tx/${activity.txHash}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[10px] text-accent font-mono mt-1 inline-block hover:underline"
+                            >
+                              View on Voyager
+                            </a>
                           )}
                         </div>
                       ))}
@@ -460,24 +431,14 @@ export default function IdentityDetailPage() {
                             <span className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-success/10 text-success">{tx.status}</span>
                           </div>
                           {tx.txHash && (
-                            <div className="flex gap-3">
-                              <a
-                                href={`https://sepolia.starkscan.co/tx/${tx.txHash}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[10px] text-accent font-mono hover:underline"
-                              >
-                                Starkscan
-                              </a>
-                              <a
-                                href={`https://sepolia.voyager.online/tx/${tx.txHash}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[10px] text-accent font-mono hover:underline"
-                              >
-                                Voyager
-                              </a>
-                            </div>
+                            <a
+                              href={`https://sepolia.voyager.online/tx/${tx.txHash}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[10px] text-accent font-mono hover:underline"
+                            >
+                              View on Voyager
+                            </a>
                           )}
                         </div>
                       ))}
