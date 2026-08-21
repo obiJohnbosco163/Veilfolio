@@ -106,7 +106,9 @@ export default function IdentityDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { identities, toggleIdentity, isLoading, walletBalance, toggleShieldedMode, transactions } = usePortfolio();
-  const { isConnected } = useAccount();
+  const { isConnected, chainId } = useAccount();
+  const MAINNET_IDS = new Set(['23448594291968334', '0x534e5f4d41494e4e4554']);
+  const isMainnet = chainId ? MAINNET_IDS.has(chainId.toString()) : false;
 
   const identityId = params.id as string;
   const identity = identities.find((id) => id.id.toString() === identityId);
@@ -581,9 +583,34 @@ export default function IdentityDetailPage() {
               </div>
             </div>
 
-            {/* Modal Body — delegates to PrivacyOperations with pre-selected op */}
+            {/* Modal Body */}
             <div className="px-6 pb-6">
-              <PrivacyOperations key={modalOp} identityId={identity.id.toString()} initialOp={modalOp} />
+              {isMainnet ? (
+                <PrivacyOperations key={modalOp} identityId={identity.id.toString()} initialOp={modalOp} />
+              ) : (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-accent-blue/10">
+                    <svg className="w-8 h-8 text-accent-blue" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">STRK20 on Sepolia Soon</h3>
+                  <p className="text-sm text-muted max-w-xs mx-auto leading-relaxed">
+                    {modalOp === 'shield'
+                      ? 'Shielding will be available once the STRK20 privacy pool is deployed on Sepolia.'
+                      : modalOp === 'transfer'
+                      ? 'Private transfers will be available once the STRK20 privacy pool is deployed on Sepolia.'
+                      : 'Unshielding will be available once the STRK20 privacy pool is deployed on Sepolia.'}
+                  </p>
+                  <button
+                    onClick={() => setModalOp(null)}
+                    className="mt-6 px-5 py-2.5 rounded-xl text-sm font-semibold text-background transition-all duration-300 hover:opacity-90"
+                    style={{ background: 'var(--accent-gradient)' }}
+                  >
+                    Got it
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
