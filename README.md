@@ -2,219 +2,207 @@
 
 **One portfolio. Separate identities. Private by design.**
 
-A privacy-first portfolio layer for Starknet that lets users organize one unified portfolio into separate, privacy-aware execution identities for apps, venues and strategies, powered by STRK20.
+Veilfolio is a privacy-first portfolio management layer for Starknet. It lets users organize a single wallet into multiple isolated execution identities — each with its own context, strategy, and privacy profile — powered by STRK20 privacy pools.
 
-## 🚀 Quick Start
+Built for the [STRK20 Private Sprint 2026](https://github.com/starkience/strk20-hackathon) hackathon.
+
+## Live Demo
+
+| | |
+|---|---|
+| **Demo** | [https://veilfolio.vercel.app](https://veilfolio.vercel.app) |
+| **Network** | Starknet Sepolia (mainnet ready) |
+| **Wallet** | Argent / Braavos via starknet-react |
+
+## Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- npm or yarn
-- A Starknet wallet (e.g., Argent, Braavos)
 
-### Installation
+- Node.js 18+
+- npm
+- A Starknet wallet (Argent or Braavos)
+
+### Install & Run
 
 ```bash
-# Clone the repository
 git clone <repo-url>
 cd veilfolio
-
-# Install dependencies
+cd app
 npm install
-
-# Create environment file
-cp .env.example .env.local
-# Edit .env.local with your configuration
-```
-
-### Development
-
-```bash
-# Start the development server
+cp ../.env.example .env.local
 npm run dev
-
-# The app will be available at http://localhost:3000
 ```
 
-### Building
+Open [http://localhost:3000](http://localhost:3000).
 
-```bash
-# Build the application
-npm run build
+## What Veilfolio Does
 
-# Start production server
-npm run start
-```
+Veilfolio solves a real problem: on Starknet, all your DeFi activity, trades, and portfolio movements are linked to a single public address. Anyone can trace your entire financial history.
 
-## 📁 Project Structure
+Veilfolio gives you **isolated execution identities** — separate on-chain personas for trading, DeFi, yield farming, long-term holdings, and more. Each identity is:
+
+- **On-chain** — Created via the IdentityManager contract on Starknet
+- **Separate** — Activity under one identity doesn't leak to others
+- **Private-ready** — Connected to STRK20 for shielding, private transfers, and unshielding
+- **Switchable** — Toggle between identities from one dashboard
+
+## Architecture
 
 ```
 veilfolio/
-├── app/               # Next.js frontend application
-│   ├── app/          # App Router
-│   ├── components/   # React components
-│   ├── lib/          # Utilities and helpers
-│   ├── pages/        # Page components
-│   └── styles/       # Global styles
-├── contracts/        # Cairo smart contracts
-│   ├── src/         # Cairo source code
-│   ├── tests/       # Cairo tests
-│   └── Scarb.toml   # Scarb configuration
-├── assets/          # Shared assets (logos, images)
-└── strk20.json      # STRK20 integration metadata
+├── contracts/              # Cairo smart contracts
+│   ├── src/
+│   │   ├── identity_manager.cairo   # Identity CRUD + status management
+│   │   ├── anonymizer.cairo         # STRK20 privacy pool helper
+│   │   └── lib.cairo
+│   ├── tests/              # snforge tests (5 passing)
+│   └── Scarb.toml          # Scarb 2.18.0, starknet 2.18.0
+│
+├── app/                    # Next.js 16 frontend
+│   ├── app/                # App Router pages
+│   │   ├── page.tsx                # Dashboard (connected + disconnected)
+│   │   ├── identity/new/page.tsx   # Identity creation wizard
+│   │   ├── identity/[id]/page.tsx  # Identity detail + operations
+│   │   ├── privacy/page.tsx        # Privacy education center
+│   │   └── architecture/page.tsx   # Architecture docs
+│   ├── components/
+│   │   ├── WalletBar.tsx           # Nav bar + wallet connect
+│   │   ├── IdentityCard.tsx        # Identity card with numbered layout
+│   │   ├── PrivacyOperations.tsx   # Shield / Transfer / Unshield modals
+│   │   └── PortfolioOverview.tsx   # Portfolio stats grid
+│   ├── context/
+│   │   └── PortfolioContext.tsx     # Portfolio state + chain-aware balance
+│   ├── lib/
+│   │   ├── strk20.ts               # STRK20 SDK, identity ops, balance, tx history
+│   │   └── contracts.ts            # Contract addresses + ABIs
+│   └── providers/
+│       ├── StarknetProvider.tsx     # Multi-chain provider (mainnet + sepolia)
+│       └── ThemeProvider.tsx        # Dark / Light / System toggle
+│
+├── scripts/
+│   └── deploy-mainnet.ts   # Mainnet deployment script
+└── strk20.json             # STRK20 hackathon submission metadata
 ```
 
-## 🔐 Privacy Model
+## Smart Contracts
 
-Veilfolio uses **STRK20** to implement private transactions and balances:
+### IdentityManager (`identity_manager.cairo`)
 
-### What is Private
-- Transaction amounts inside the STRK20 pool
-- Recipient identities for private transfers
-- Private DeFi execution paths
-- Shielded balances
+On-chain identity registry deployed on Starknet Sepolia.
+
+| | |
+|---|---|
+| **Address** | `0x05e9b7866bb7a77a8c9881e46847963eae20b5d7222c99c5f9f0985560d4d1fb` |
+| **Class Hash** | `0xe977670cc859d20a5d6c8dd31211e661cfa4bd0ddf419555797450633c2bfa` |
+| **Network** | Starknet Sepolia |
+
+**Entry points:**
+
+- `create_identity(name, identity_type)` — Create a new execution identity
+- `get_identities(owner)` — List all identities for an owner address
+- `get_identity(id)` — Get a single identity by ID
+- `set_identity_status(id, is_active)` — Activate or deactivate an identity
+- `get_identity_count()` — Total identities created
+
+**Identity types:** TRADING, DEFI, YIELD, LONG_TERM, APP, VENUE, STRATEGY, CUSTOM
+
+### Anonymizer (`anonymizer.cairo`)
+
+STRK20 privacy pool helper contract.
+
+| | |
+|---|---|
+| **Address** | `0x0066bb5b454d5a8488cd3988afd9a6790e38dc6f9e51e7ba162237a903c44ab3` |
+| **Network** | Starknet Sepolia |
+
+## Frontend
+
+**Stack:** Next.js 16, React 19, starknet-react v5, starknet.js v10, Tailwind CSS v4
+
+### Pages
+
+- **Dashboard** (`/`) — Wallet balance with animated counters, identity grid with numbered cards, stat pills, connect/disconnect
+- **Create Identity** (`/identity/new`) — 5-step wizard: Type > Name > Privacy > Confirm > Done
+- **Identity Detail** (`/identity/[id]`) — Balance card, quick actions (Shield/Transfer/Unshield), shielded mode toggle, on-chain details, privacy operations modal, activity tab, settings (activate/deactivate)
+- **Privacy Center** (`/privacy`) — Education on what STRK20 protects, what remains public, the privacy model, and limitations
+
+### Key Features
+
+- **Multi-network support** — Detects mainnet vs sepolia from wallet, fetches balances from the correct RPC
+- **Animated counters** — Balance numbers animate on load with cubic easing
+- **Dark/Light/System theme** — Persisted in localStorage, flash-prevention script in `<head>`
+- **Identity type system** — 8 types with color-coded icons, human-readable labels, purpose descriptions
+- **Shielded mode toggle** — Per-identity privacy mode stored in localStorage
+- **Privacy operations** — In-page modal popups for Shield, Private Transfer, Unshield with pre-selected tabs
+- **Transaction history** — Fetches ERC-20 Transfer events from RPC with felt252 normalization
+- **Coming Soon banner** — Gracefully shows STRK20 pool status when not deployed on current network
+- **Responsive design** — Mobile-first with touch-friendly targets (min 44px), adaptive layouts
+
+### Wallet Balance
+
+STRK balance is fetched directly from the ERC-20 contract via RPC — no indexer required:
+
+```
+STRK Token: 0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d
+```
+
+Handles all RPC response formats: `{low, high}` u256 structs, flat BigInt, number, hex string.
+
+## Privacy Model
+
+### What STRK20 Hides (inside the pool)
+
+- Sender identity
+- Recipient identity
+- Transaction amounts
+- Token information
+- Transaction details
 
 ### What Remains Public
-- Deposit transactions (ERC-20 → pool)
-- Withdrawal transactions (pool → ERC-20)
-- Public entry/exit on the Starknet blockchain
 
-For detailed privacy documentation, see [Privacy Center](./docs/PRIVACY.md).
+- Deposit transactions (ERC-20 transfer from wallet to pool)
+- Withdrawal transactions (ERC-20 transfer from pool to wallet)
+- Deposit amounts
+- Block-level metadata and timing correlations
 
-## 🏗️ Architecture
+Veilfolio stores **nothing server-side**. All identity metadata stays in your browser's localStorage.
 
-Veilfolio consists of 5 layers:
-
-1. **User Wallet** — Standard Starknet wallet connection
-2. **STRK20 Privacy Layer** — Shield, transfer, and unshield operations
-3. **Execution Identity Manager** — Portfolio bucket abstraction
-4. **Portfolio Aggregation Engine** — Unified balance and PnL tracking
-5. **Mainnet Execution** — Real STRK20 pool interaction
-
-## 🔌 STRK20 Integration
-
-- Privacy Wallet API for standard operations
-- STRK20 pool shielding and unshielding
-- Private transfers within the pool
-- Private DeFi where supported
-- Proof-backed privacy transactions
-
-## 🎯 Core Features
-
-- **Unified Portfolio** — One dashboard for all execution identities
-- **Private Execution Identities** — Separate contexts for trading, DeFi, yield, long-term holdings, and custom strategies
-- **Privacy Center** — Transparent documentation of what is and isn't private
-- **Real Mainnet Integration** — Live STRK20 pool interaction
-- **Allocation Tracking** — Visual portfolio allocation by identity
-- **PnL Calculation** — Realized and unrealized gains/losses
-- **Risk Scoring** — Portfolio and identity-level risk metrics
-
-## 📊 Demo
-
-See the [3-minute demo](./docs/DEMO.md) for a walkthrough of core features.
-
-## 🧪 Testing
+## Testing
 
 ```bash
-# Run all tests
-npm test
+# Cairo contract tests
+cd contracts && snforge test
 
-# Run frontend tests only
-npm run test -w app
-
-# Run contract tests only
-npm run contracts:test
+# Frontend build check
+cd app && npm run build
 ```
 
-## 📦 Deployment
+5/5 contract tests passing. Frontend builds clean with zero TypeScript errors.
 
-### Mainnet
+## Tech Stack
 
-```bash
-npm run build
-npm run start
-```
+| Layer | Technology |
+|---|---|
+| Smart contracts | Cairo edition 2024_07, starknet 2.18.0, Sierra 1.8.0 |
+| Contract tooling | Scarb 2.18.0, snforge 0.61.0, sncast 0.61.0 |
+| Frontend | Next.js 16, React 19, TypeScript |
+| Starknet SDK | starknet.js v10, starknet-react v5.0.3 |
+| Styling | Tailwind CSS v4 |
+| Network | Starknet Sepolia (mainnet ready) |
 
-See [Deployment Guide](./docs/DEPLOYMENT.md) for detailed instructions.
+## Roadmap
 
-### Contract Deployment
+- **V1 (current)** — Identity management, wallet balance, STRK20 privacy operations UI
+- **V2** — Native STRK20 private sub-account integration
+- **V3** — Per-app execution identities
+- **V4** — Per-venue execution identities
+- **V5** — Automated strategy identities
+- **V6** — Institutional private portfolio management
 
-Contracts are deployed to mainnet via Scarb.
+## License
 
-See [Smart Contracts](./contracts/README.md) for details.
-
-## 📚 Documentation
-
-- [Privacy Model](./docs/PRIVACY.md)
-- [Architecture](./docs/ARCHITECTURE.md)
-- [STRK20 Integration](./docs/STRK20.md)
-- [Security Considerations](./docs/SECURITY.md)
-- [Threat Model](./docs/THREAT_MODEL.md)
-- [Smart Contracts](./contracts/README.md)
-
-## 🔍 Mainnet Transactions
-
-Verified STRK20 pool transactions demonstrating the product:
-
-| Type | Hash | Status |
-|------|------|--------|
-| Shield | TBD | — |
-| Private Transfer | TBD | — |
-| Unshield | TBD | — |
-
-## 🛣️ Roadmap
-
-**V1** — STRK20 privacy primitives, execution identities, unified portfolio
-
-**V2** — Native STRK20 private sub-account integration (when available)
-
-**V3** — Per-app execution identities
-
-**V4** — Per-venue execution identities
-
-**V5** — Automated strategy identities
-
-**V6** — Institutional private portfolio management
-
-## ⚖️ License
-
-This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
-
-## 👥 Contributors
-
-- Veilfolio Team
-
-## ❓ FAQ
-
-### Is Veilfolio a wallet?
-
-No. Veilfolio is a **portfolio layer** that works with existing Starknet wallets. It uses STRK20 for private execution.
-
-### What makes it different?
-
-Unlike traditional wallets that expose all activity as one public identity, Veilfolio lets you organize one unified portfolio into multiple privacy-aware execution identities. This separates your strategies without turning your portfolio into a public graph.
-
-### Is it 100% anonymous?
-
-No. Veilfolio is not anonymous; it is **privacy-aware**. STRK20 hides transaction details inside the pool, but deposit and withdrawal transactions remain visible on the public blockchain as ERC-20 transfers. See [Privacy Model](./docs/PRIVACY.md) for details.
-
-### Can I use this on mainnet?
-
-Yes. Veilfolio is designed for mainnet Starknet and real STRK20 pool interaction. Always test thoroughly before moving funds.
-
-### Is the code audited?
-
-This is a hackathon project. While we aim for security best practices, no formal audit has been conducted. Review code carefully before using with significant funds.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please open issues and pull requests on GitHub.
-
-## 📞 Support
-
-For issues, questions, or feedback, please open an issue on GitHub.
+MIT
 
 ---
 
 **Built for the STRK20 Private Sprint 2026.**
-
-Veilfolio is the portfolio layer for private execution on Starknet.

@@ -1,6 +1,31 @@
 {
-  "transactions": [],
-  "contracts": [],
+  "demo_url": "",
+  "build_url": "",
   "demo_video": "",
-  "demo_url": ""
+  "transactions": [
+    "0x05e9b7866bb7a77a8c9881e46847963eae20b5d7222c99c5f9f0985560d4d1fb",
+    "0x0066bb5b454d5a8488cd3988afd9a6790e38dc6f9e51e7ba162237a903c44ab3"
+  ],
+  "contracts": {
+    "identity_manager": "0x05e9b7866bb7a77a8c9881e46847963eae20b5d7222c99c5f9f0985560d4d1fb",
+    "anonymizer": "0x0066bb5b454d5a8488cd3988afd9a6790e38dc6f9e51e7ba162237a903c44ab3",
+    "network": "starknet-sepolia"
+  },
+  "tech_stack": {
+    "contracts": "Cairo 2024_07, starknet 2.18.0, Sierra 1.8.0",
+    "frontend": "Next.js 16, React 19, starknet.js v10, starknet-react v5, Tailwind v4",
+    "tooling": "Scarb 2.18.0, snforge 0.61.0"
+  },
+  "features": [
+    "On-chain execution identity management (8 types + custom)",
+    "Multi-network support (mainnet + sepolia auto-detection)",
+    "STRK20 privacy operations (Shield, Private Transfer, Unshield)",
+    "Wallet balance via ERC-20 RPC (no indexer required)",
+    "Transaction history via starknet_getEvents",
+    "Dark/Light/System theme with flash prevention",
+    "Responsive design with mobile-first layout",
+    "Animated counters and numbered-section design",
+    "Shielded mode toggle per identity",
+    "Privacy education center"
+  ]
 }
