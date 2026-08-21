@@ -133,9 +133,20 @@ export function normalizeIdentity(raw: any): OnChainIdentity {
     ownerStr = String(rawOwner ?? "");
   }
 
+  // felt252 zero means empty name — BigInt(0) or "0" should become ""
+  const rawName = raw.name;
+  let nameStr: string;
+  if (!rawName || rawName === "0" || rawName === 0n || rawName === 0) {
+    nameStr = "";
+  } else if (typeof rawName === "bigint") {
+    nameStr = String(rawName);
+  } else {
+    nameStr = String(rawName);
+  }
+
   return {
     id: raw.id !== undefined ? BigInt(raw.id.low ?? raw.id) : BigInt(0),
-    name: raw.name ?? "",
+    name: nameStr,
     identity_type: typeCode,
     owner: ownerStr,
     created_at: BigInt(raw.created_at ?? 0),

@@ -317,14 +317,24 @@ export default function IdentityDetailPage() {
                         <p className="text-xs font-mono text-muted truncate max-w-[180px]">{identity.owner ? `${identity.owner.slice(0, 10)}...${identity.owner.slice(-4)}` : 'N/A'}</p>
                       </div>
                     </div>
-                    <a
-                      href={`https://sepolia.starkscan.co/contract/${IDENTITY_MANAGER_ADDRESS}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[11px] text-accent hover:underline"
-                    >
-                      View on Starkscan &rarr;
-                    </a>
+                    <div className="flex gap-3">
+                      <a
+                        href={`https://sepolia.starkscan.co/contract/${IDENTITY_MANAGER_ADDRESS}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] text-accent hover:underline"
+                      >
+                        Starkscan &rarr;
+                      </a>
+                      <a
+                        href={`https://sepolia.voyager.online/contract/${IDENTITY_MANAGER_ADDRESS}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] text-accent hover:underline"
+                      >
+                        Voyager &rarr;
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -332,24 +342,21 @@ export default function IdentityDetailPage() {
                 <div>
                   <h3 className="text-sm font-semibold text-foreground mb-3">On-Chain Details</h3>
                   <div className="bg-card border border-card-border rounded-xl divide-y divide-card-border">
-                    {[
-                      { label: 'Identity ID', value: identity.id.toString(), mono: true },
-                      { label: 'Owner', value: identity.owner || 'N/A', mono: true, truncate: true },
-                      { label: 'Contract', value: IDENTITY_MANAGER_ADDRESS, mono: true, truncate: true, link: `https://sepolia.starkscan.co/contract/${IDENTITY_MANAGER_ADDRESS}` },
-                    ].map((item) => (
-                      <div key={item.label} className="flex justify-between items-center px-4 py-3">
-                        <span className="text-xs text-muted">{item.label}</span>
-                        {item.link ? (
-                          <a href={item.link} target="_blank" rel="noopener noreferrer" className={`font-mono text-xs text-accent hover:underline ${item.truncate ? 'max-w-[200px] truncate' : ''}`}>
-                            {item.truncate ? `${item.value.slice(0, 10)}...${item.value.slice(-6)}` : item.value}
-                          </a>
-                        ) : (
-                          <span className={`font-mono text-xs text-foreground ${item.truncate ? 'max-w-[200px] truncate' : ''}`}>
-                            {item.truncate && item.value ? `${item.value.slice(0, 10)}...${item.value.slice(-6)}` : item.value}
-                          </span>
-                        )}
+                    <div className="flex justify-between items-center px-4 py-3">
+                      <span className="text-xs text-muted">Identity ID</span>
+                      <span className="font-mono text-xs text-foreground">{identity.id.toString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center px-4 py-3">
+                      <span className="text-xs text-muted">Owner</span>
+                      <span className="font-mono text-xs text-foreground max-w-[200px] truncate">{identity.owner ? `${identity.owner.slice(0, 10)}...${identity.owner.slice(-4)}` : 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between items-center px-4 py-3">
+                      <span className="text-xs text-muted">Contract</span>
+                      <div className="flex gap-3">
+                        <a href={`https://sepolia.starkscan.co/contract/${IDENTITY_MANAGER_ADDRESS}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-accent hover:underline">Starkscan</a>
+                        <a href={`https://sepolia.voyager.online/contract/${IDENTITY_MANAGER_ADDRESS}`} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] text-accent hover:underline">Voyager</a>
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -383,14 +390,24 @@ export default function IdentityDetailPage() {
                             <p className="text-sm font-bold text-foreground">{activity.amount}</p>
                           </div>
                           {activity.txHash && (
-                            <a
-                              href={`https://sepolia.starkscan.co/tx/${activity.txHash}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[10px] text-accent font-mono mt-1 inline-block hover:underline"
-                            >
-                              TX: {activity.txHash.slice(0, 16)}...
-                            </a>
+                            <div className="flex gap-3 mt-1">
+                              <a
+                                href={`https://sepolia.starkscan.co/tx/${activity.txHash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] text-accent font-mono inline-block hover:underline"
+                              >
+                                Starkscan
+                              </a>
+                              <a
+                                href={`https://sepolia.voyager.online/tx/${activity.txHash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] text-accent font-mono inline-block hover:underline"
+                              >
+                                Voyager
+                              </a>
+                            </div>
                           )}
                         </div>
                       ))}
@@ -443,14 +460,24 @@ export default function IdentityDetailPage() {
                             <span className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-success/10 text-success">{tx.status}</span>
                           </div>
                           {tx.txHash && (
-                            <a
-                              href={`https://sepolia.starkscan.co/tx/${tx.txHash}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[10px] text-accent font-mono hover:underline"
-                            >
-                              TX: {tx.txHash.slice(0, 16)}...
-                            </a>
+                            <div className="flex gap-3">
+                              <a
+                                href={`https://sepolia.starkscan.co/tx/${tx.txHash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] text-accent font-mono hover:underline"
+                              >
+                                Starkscan
+                              </a>
+                              <a
+                                href={`https://sepolia.voyager.online/tx/${tx.txHash}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[10px] text-accent font-mono hover:underline"
+                              >
+                                Voyager
+                              </a>
+                            </div>
                           )}
                         </div>
                       ))}
