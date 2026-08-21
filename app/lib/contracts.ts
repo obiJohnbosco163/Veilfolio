@@ -197,19 +197,18 @@ export const ANONYMIZER_ABI = [
   },
 ] as const;
 
-// STRK20 Privacy Pool — sepolia (mainnet: 0x040337b1af3c663e86e333bab5a4b28da8d4652a15a69beee2b677776ffe812a)
+// STRK20 Privacy Pool — mainnet (not deployed on sepolia)
 export const STRK20_PRIVACY_POOL_ADDRESS: Address =
-  "0x0000000000000000000000000000000000000000000000000000000000000000" as Address; // TODO: replace with sepolia pool address
+  "0x040337b1af3c663e86e333bab5a4b28da8d4652a15a69beee2b677776ffe812a" as Address;
 
-// Veilfolio contract addresses (set after deployment)
-// These are placeholder addresses - update after deploying contracts
+// Veilfolio contract addresses — deployed on sepolia
 export const IDENTITY_MANAGER_ADDRESS: Address =
   (process.env.NEXT_PUBLIC_IDENTITY_MANAGER_ADDRESS as Address) ||
-  "0x0000000000000000000000000000000000000000000000000000000000000000" as Address;
+  "0x05e9b7866bb7a77a8c9881e46847963eae20b5d7222c99c5f9f0985560d4d1fb" as Address; // sepolia
 
 export const ANONYMIZER_ADDRESS: Address =
   (process.env.NEXT_PUBLIC_ANONYMIZER_ADDRESS as Address) ||
-  "0x0000000000000000000000000000000000000000000000000000000000000000" as Address;
+  "0x0066bb5b454d5a8488cd3988afd9a6790e38dc6f9e51e7ba162237a903c44ab3" as Address; // sepolia
 
 // Common Starknet mainnet tokens (addresses are the same on Sepolia and Mainnet)
 export const TOKENS = {
