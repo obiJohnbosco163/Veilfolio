@@ -190,11 +190,11 @@ export default function IdentityDetailPage() {
                   </svg>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-foreground tracking-tight">{identity.humanName || `${typeLabel} #${identity.id.toString()}`}</h1>
+                  <h1 className="text-2xl font-bold text-foreground tracking-tight">{identity.name || humanReadableIdentityName(typeLabel, Number(identity.id))}</h1>
                   <div className="flex items-center gap-2 mt-1 flex-wrap">
                     <span className={`text-xs font-bold uppercase tracking-wider ${typeColor}`}>{typeLabel}</span>
-                    <span className="text-muted text-xs font-mono">
-                      {identity.owner ? `${identity.owner.slice(0, 6)}...${identity.owner.slice(-4)}` : 'N/A'}
+                    <span className="text-muted text-xs">
+                      {IDENTITY_TYPE_PURPOSE[identity.identity_type] || 'General purpose identity'}
                     </span>
                   </div>
                 </div>
@@ -254,39 +254,6 @@ export default function IdentityDetailPage() {
                           {pnlPositive ? '+' : ''}{pnlValue.toFixed(2)}%
                         </span>
                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Identity Name & Purpose */}
-                <div className="bg-card border border-card-border rounded-xl p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-gradient-to-br ${typeColor.replace('text-', 'from-')}/15 to-transparent`}>
-                          <svg className={`w-4 h-4 ${typeColor}`} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d={typeIcon} />
-                          </svg>
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="text-base font-bold text-foreground truncate">{identity.name || humanReadableIdentityName(typeLabel, Number(identity.id))}</h3>
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap items-center gap-2 mt-2">
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${typeColor} bg-surface`}>
-                          {typeLabel}
-                        </span>
-                        <span className="text-[11px] text-muted">
-                          {IDENTITY_TYPE_PURPOSE[identity.identity_type] || 'General purpose identity'}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${identity.is_active ? 'bg-success/10 text-success' : 'bg-muted/10 text-muted'}`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${identity.is_active ? 'bg-success' : 'bg-muted/50'}`} />
-                        {identity.is_active ? 'Active' : 'Inactive'}
-                      </span>
-                      <p className="text-[10px] text-muted mt-1.5">Created {createdLabel}</p>
                     </div>
                   </div>
                 </div>
