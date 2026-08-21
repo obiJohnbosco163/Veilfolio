@@ -4,6 +4,7 @@ import { usePortfolio } from '@/context/PortfolioContext';
 import { useAccount } from '@starknet-react/core';
 import { WalletBar } from '@/components/WalletBar';
 import { IdentityCard } from '@/components/IdentityCard';
+import { DashboardBackground } from '@/components/DashboardBackground';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
@@ -58,10 +59,11 @@ export default function Home() {
   const { isConnected } = useAccount();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <DashboardBackground />
       <WalletBar />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
         {!isConnected ? (
           /* ── Disconnected: Clean Hero ── */
           <div className="flex flex-col items-center justify-center pt-20 sm:pt-32 pb-20">
