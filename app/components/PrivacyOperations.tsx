@@ -14,13 +14,15 @@ const OPS: Record<Operation, { title: string; desc: string }> = {
   unshield: { title: 'Unshield', desc: 'Withdraw tokens back to a public address' },
 };
 
-// Check if the STRK20 privacy pool is deployed (non-zero address)
-const POOL_AVAILABLE = STRK20_PRIVACY_POOL_ADDRESS &&
-  STRK20_PRIVACY_POOL_ADDRESS !== '0x0000000000000000000000000000000000000000000000000000000000000000';
+// Mainnet chain IDs used by starknet-react
+const MAINNET_CHAIN_IDS = new Set(['23448594291968334', '0x534e5f4d41494e4e4554']);
 
 export function PrivacyOperations({ identityId, initialOp }: { identityId?: string; initialOp?: Operation }) {
-  const { account } = useAccount();
+  const { account, chainId } = useAccount();
   const { addActivity, refreshIdentities } = usePortfolio();
+  const isMainnet = chainId ? MAINNET_CHAIN_IDS.has(chainId.toString()) : false;
+  const poolAvailable = isMainnet && STRK20_PRIVACY_POOL_ADDRESS &&
+    STRK20_PRIVACY_POOL_ADDRESS !== '0x0000000000000000000000000000000000000000000000000000000000000000';
   const [activeOp, setActiveOp] = useState<Operation>(initialOp || 'shield');
   const [token, setToken] = useState<TokenSymbol>('STRK');
   const [amount, setAmount] = useState('');
@@ -33,8 +35,8 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
     if (!account || !amount) return;
 
     // If the STRK20 privacy pool is not deployed, show coming soon message
-    if (!POOL_AVAILABLE) {
-      setError('STRK20 privacy pool is coming soon to sepolia. Shielding will be available once the pool is deployed. Stay tuned!');
+    if (!poolAvailable) {
+      setError('STRK20 on sepolia soon. Private transfers will be available once the privacy pool is deployed.');
       return;
     }
 
@@ -92,7 +94,7 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
       <h3 className="text-sm font-semibold text-foreground mb-4">Privacy Operations</h3>
 
       {/* Coming Soon Banner */}
-      {!POOL_AVAILABLE && (
+      {!poolAvailable && (
         <div className="mb-5 p-4 rounded-xl border border-accent-blue/20 bg-accent-blue/5 animate-fade-in">
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-accent-blue/10 shrink-0">
@@ -103,7 +105,7 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
             <div>
               <p className="text-sm font-semibold text-accent-blue">Coming Soon</p>
               <p className="text-xs text-muted mt-0.5 leading-relaxed">
-                The STRK20 privacy pool is not yet deployed on sepolia. Shielding, private transfers, and unshielding will be available once the pool goes live. Your identity is ready — the privacy features will activate automatically.
+                STRK20 on sepolia soon. Shielding, private transfers, and unshielding will be available once the privacy pool is deployed. Your identity is ready — the privacy features will activate automatically.
               </p>
             </div>
           </div>
@@ -207,7 +209,7 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
         >
           {isSubmitting ? (
             <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>Processing...</>
-          ) : !POOL_AVAILABLE ? 'Coming Soon'
+          ) : !poolAvailable ? 'Coming Soon'
           : !account ? 'Connect Wallet' : OPS[activeOp].title}
         </button>
       </div>
