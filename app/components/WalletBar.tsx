@@ -92,7 +92,7 @@ export function WalletBar() {
                   key={connector.id}
                   onClick={() => connect({ connector })}
                   disabled={isPending}
-                  className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-background rounded-lg transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-[44px]"
+                  className="press-scale px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-background rounded-lg transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-[44px]"
                   style={{ background: 'var(--accent-gradient)' }}
                 >
                   {isPending ? '...' : connector.name}

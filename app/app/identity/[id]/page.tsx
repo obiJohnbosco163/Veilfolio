@@ -64,7 +64,7 @@ function AnimatedValue({ value }: { value: string | number }) {
     return () => cancelAnimationFrame(rafId);
   }, [value]);
 
-  return <span className="animate-count-up">{display}</span>;
+  return <span className="animate-count-up tnum">{display}</span>;
 }
 
 type TabKey = 'overview' | 'activity' | 'settings';
@@ -190,7 +190,7 @@ export default function IdentityDetailPage() {
               )}
               {/* Meta row: ID, Type, Status, Created */}
               <div className="flex items-center gap-3 mt-3 flex-wrap">
-                <span className="text-xs font-mono text-muted">#{identity.id.toString()}</span>
+                <span className="text-xs font-mono text-muted tnum">#{identity.id.toString()}</span>
                 <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${typeColor} bg-surface`}>
                   {typeLabel}
                 </span>
@@ -239,12 +239,12 @@ export default function IdentityDetailPage() {
                     <div className="flex items-center gap-4 text-sm">
                       <div className="flex items-center gap-1.5">
                         <span className="text-muted">Wallet:</span>
-                        <span className="font-semibold text-foreground">{parseFloat(walletBalance).toFixed(4)} STRK</span>
+                        <span className="font-semibold text-foreground tnum">{parseFloat(walletBalance).toFixed(4)} STRK</span>
                       </div>
                       <div className="w-px h-4 bg-card-border" />
                       <div className="flex items-center gap-1.5">
                         <span className="text-muted">PnL:</span>
-                        <span className={`font-semibold ${pnlPositive ? 'text-success' : 'text-danger'}`}>
+                        <span className={`font-semibold tnum ${pnlPositive ? 'text-success' : 'text-danger'}`}>
                           {pnlPositive ? '+' : ''}{pnlValue.toFixed(2)}%
                         </span>
                       </div>
@@ -262,7 +262,7 @@ export default function IdentityDetailPage() {
                         <button
                           key={feature.title}
                           onClick={() => setModalOp(op as 'shield' | 'transfer' | 'unshield')}
-                          className={`group p-4 bg-card border ${feature.border} rounded-xl hover-lift cursor-pointer transition-all duration-300 text-center`}
+                          className={`group p-4 bg-card border ${feature.border} rounded-xl hover-lift cursor-pointer text-center`}
                         >
                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2 bg-gradient-to-br ${feature.bg}`}>
                             <svg className={`w-5 h-5 ${feature.accent}`} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -364,13 +364,13 @@ export default function IdentityDetailPage() {
                   ) : (
                     <div className="space-y-2 stagger-children">
                       {identity.recentActivity.map((activity) => (
-                        <div key={activity.id} className="p-4 bg-surface rounded-xl border border-card-border hover-lift transition-all duration-300">
+                        <div key={activity.id} className="p-4 bg-surface rounded-xl border border-card-border hover-lift">
                           <div className="flex justify-between items-start mb-1">
                             <div>
                               <p className="font-semibold text-foreground text-sm">{activity.type}</p>
                               <p className="text-xs text-muted">{new Date(activity.timestamp).toLocaleString()}</p>
                             </div>
-                            <p className="text-sm font-bold text-foreground">{activity.amount}</p>
+                            <p className="text-sm font-bold text-foreground tnum">{activity.amount}</p>
                           </div>
                           {activity.txHash && (
                             <a
@@ -407,7 +407,7 @@ export default function IdentityDetailPage() {
                   ) : (
                     <div className="space-y-2 stagger-children">
                       {transactions.map((tx, i) => (
-                        <div key={`${tx.txHash}-${i}`} className="p-4 bg-surface rounded-xl border border-card-border hover-lift transition-all duration-300">
+                        <div key={`${tx.txHash}-${i}`} className="p-4 bg-surface rounded-xl border border-card-border hover-lift">
                           <div className="flex justify-between items-start mb-1.5">
                             <div className="flex items-center gap-2">
                               <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-card border border-card-border">
@@ -507,7 +507,7 @@ export default function IdentityDetailPage() {
             <div className="pt-6 border-t border-card-border flex gap-3 flex-wrap">
               <button
                 onClick={() => setShowPrivacyOps(!showPrivacyOps)}
-                className="px-5 py-2.5 text-background rounded-xl font-bold transition-all duration-300 hover:scale-105 text-sm flex items-center gap-2"
+                className="press-scale px-5 py-2.5 text-background rounded-xl font-bold transition-transform hover:scale-[1.02] text-sm flex items-center gap-2"
                 style={{ background: 'var(--accent-gradient)' }}
               >
                 {showPrivacyOps ? 'Hide Operations' : 'Privacy Operations'}
@@ -604,7 +604,7 @@ export default function IdentityDetailPage() {
                   </p>
                   <button
                     onClick={() => setModalOp(null)}
-                    className="mt-6 px-5 py-2.5 rounded-xl text-sm font-semibold text-background transition-all duration-300 hover:opacity-90"
+                    className="press-scale mt-6 px-5 py-2.5 rounded-xl text-sm font-semibold text-background transition-opacity hover:opacity-90"
                     style={{ background: 'var(--accent-gradient)' }}
                   >
                     Got it

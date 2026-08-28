@@ -30,7 +30,7 @@ function AnimatedCounter({ value, decimals = 4 }: { value: string; decimals?: nu
     return () => cancelAnimationFrame(raf);
   }, [value, decimals]);
 
-  return <span ref={ref} className="animate-count-up">{display}</span>;
+  return <span ref={ref} className="animate-count-up tnum">{display}</span>;
 }
 
 const WHY_FEATURES = [
@@ -92,11 +92,11 @@ export default function Home() {
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Link
                     href="/identity/new"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-background rounded-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-accent/20"
+                    className="press-scale inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/20"
                     style={{ background: 'var(--accent-gradient)' }}
                   >
                     Get started
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                     </svg>
                   </Link>
@@ -148,10 +148,10 @@ export default function Home() {
                 </div>
                 <Link
                   href="/identity/new"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-background rounded-xl transition-all duration-200 hover:scale-[1.03] hover:shadow-lg hover:shadow-accent/15 shrink-0"
+                  className="press-scale inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/15 shrink-0"
                   style={{ background: 'var(--accent-gradient)' }}
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   New Identity
@@ -163,17 +163,17 @@ export default function Home() {
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                   <span className="text-muted">Identities</span>
-                  <span className="font-semibold text-foreground">{identities.length}</span>
+                  <span className="font-semibold text-foreground tnum">{identities.length}</span>
                 </div>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-secondary" />
                   <span className="text-muted">Identity Value</span>
-                  <span className="font-semibold text-foreground">{parseFloat(totalIdentityBalance).toFixed(2)} STRK</span>
+                  <span className="font-semibold text-foreground tnum">{parseFloat(totalIdentityBalance).toFixed(2)} STRK</span>
                 </div>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-blue" />
                   <span className="text-muted">Active</span>
-                  <span className="font-semibold text-foreground">{identities.filter(i => i.is_active).length}</span>
+                  <span className="font-semibold text-foreground tnum">{identities.filter(i => i.is_active).length}</span>
                 </div>
               </div>
             </div>
@@ -226,11 +226,11 @@ export default function Home() {
                 <p className="text-muted text-sm mb-6 max-w-xs mx-auto">Create your first identity to start managing your portfolio privately.</p>
                 <Link
                   href="/identity/new"
-                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-background rounded-xl transition-all duration-200 hover:scale-[1.03]"
+                  className="press-scale inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02]"
                   style={{ background: 'var(--accent-gradient)' }}
                 >
                   Create your first identity
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                   </svg>
                 </Link>

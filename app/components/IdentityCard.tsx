@@ -59,7 +59,7 @@ export function IdentityCard({ identity, index }: { identity: ExecutionIdentity;
 
   return (
     <Link href={`/identity/${identity.id.toString()}`}>
-      <div className="group relative numbered-card bg-card border border-card-border/60 rounded-2xl p-5 hover-lift cursor-pointer overflow-hidden transition-all duration-300 hover:border-accent/15">
+      <div className="group relative numbered-card bg-card border border-card-border/60 rounded-2xl p-5 hover-lift cursor-pointer overflow-hidden hover:border-accent/15">
         {/* Top row: number + type dot + name + status */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-start gap-3">
@@ -85,12 +85,12 @@ export function IdentityCard({ identity, index }: { identity: ExecutionIdentity;
         <div className="flex items-center gap-3 text-xs">
           <div className="flex-1 min-w-0">
             <p className="text-muted text-[10px] uppercase tracking-wider mb-0.5">Balance</p>
-            <p className="font-semibold text-foreground truncate">{Number(identity.balance).toLocaleString(undefined, { maximumFractionDigits: 4 })} STRK</p>
+            <p className="font-semibold text-foreground truncate tnum">{Number(identity.balance).toLocaleString(undefined, { maximumFractionDigits: 4 })} STRK</p>
           </div>
           <div className="w-px h-6 bg-card-border/60 shrink-0" />
           <div className="flex-1 min-w-0">
             <p className="text-muted text-[10px] uppercase tracking-wider mb-0.5">PnL</p>
-            <p className={`font-semibold ${identity.pnl >= 0 ? 'text-success' : 'text-danger'}`}>
+            <p className={`font-semibold tnum ${identity.pnl >= 0 ? 'text-success' : 'text-danger'}`}>
               {identity.pnl >= 0 ? '+' : ''}{identity.pnl.toFixed(2)}%
             </p>
           </div>

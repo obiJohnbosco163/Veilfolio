@@ -111,10 +111,11 @@ export default function CreateIdentityPage() {
                 {/* Custom type input — visible when CUSTOM is selected */}
                 {formData.type === 'CUSTOM' && (
                   <div className="mt-4 animate-fade-in">
-                    <label className="block text-xs font-medium text-muted uppercase tracking-wider mb-2">
+                    <label htmlFor="custom-type" className="block text-xs font-medium text-muted uppercase tracking-wider mb-2">
                       Type a custom identity type
                     </label>
                     <input
+                      id="custom-type"
                       type="text"
                       value={formData.customType}
                       onChange={(e) => setFormData({ ...formData, customType: e.target.value })}
@@ -133,8 +134,9 @@ export default function CreateIdentityPage() {
                 <h2 className="text-xl font-bold text-foreground mb-1">Name this execution identity</h2>
                 <p className="text-sm text-muted mb-6">Choose a descriptive name for this private context</p>
                 <div className="mb-4">
-                  <label className="block text-xs font-medium text-muted uppercase tracking-wider mb-2">Identity Name</label>
+                  <label htmlFor="identity-name" className="block text-xs font-medium text-muted uppercase tracking-wider mb-2">Identity Name</label>
                   <input
+                    id="identity-name"
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -144,8 +146,9 @@ export default function CreateIdentityPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-muted uppercase tracking-wider mb-2">Purpose (Optional)</label>
+                  <label htmlFor="identity-purpose" className="block text-xs font-medium text-muted uppercase tracking-wider mb-2">Purpose (Optional)</label>
                   <textarea
+                    id="identity-purpose"
                     value={formData.purpose}
                     onChange={(e) => setFormData({ ...formData, purpose: e.target.value })}
                     placeholder="Describe the strategy or purpose..."
@@ -274,28 +277,28 @@ export default function CreateIdentityPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={!formData.name || !isConnected || isLoading}
-                  className="px-6 py-2.5 text-background rounded-xl font-bold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 text-sm flex items-center gap-2"
+                  className="press-scale px-6 py-2.5 text-background rounded-xl font-bold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity text-sm flex items-center gap-2"
                   style={{ background: 'var(--accent-gradient)' }}
                 >
                   {isLoading ? (
                     <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>Creating...</>
                   ) : (
-                    <>Create Identity<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg></>
+                    <>Create Identity<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg></>
                   )}
                 </button>
               ) : step < 5 ? (
                 <button
                   onClick={() => setStep(step + 1)}
                   disabled={step === 2 && !formData.name}
-                  className="px-6 py-2.5 text-background rounded-xl font-bold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:scale-105 text-sm flex items-center gap-2"
+                  className="press-scale px-6 py-2.5 text-background rounded-xl font-bold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity text-sm flex items-center gap-2"
                   style={{ background: 'var(--accent-gradient)' }}
                 >
-                  Next<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+                  Next<svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
                 </button>
               ) : (
                 <button
                   onClick={() => router.push('/')}
-                  className="px-6 py-2.5 text-background rounded-xl font-bold hover:opacity-90 transition-all duration-300 hover:scale-105 text-sm"
+                  className="press-scale px-6 py-2.5 text-background rounded-xl font-bold hover:opacity-90 transition-opacity text-sm"
                   style={{ background: 'var(--accent-gradient)' }}
                 >
                   Go to Dashboard

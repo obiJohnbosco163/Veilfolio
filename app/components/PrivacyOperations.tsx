@@ -31,7 +31,8 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
   const [txHash, setTxHash] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     if (!account || !amount) return;
 
     // If the STRK20 privacy pool is not deployed, show coming soon message
@@ -131,13 +132,14 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
 
       <p className="text-xs text-muted mb-5">{OPS[activeOp].desc}</p>
 
-      <div className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label className="block text-[10px] text-muted uppercase tracking-wider mb-1.5 font-medium">Token</label>
+          <label htmlFor="op-token" className="block text-[10px] text-muted uppercase tracking-wider mb-1.5 font-medium">Token</label>
           <select
+            id="op-token"
             value={token}
             onChange={(e) => setToken(e.target.value as TokenSymbol)}
-            className="w-full px-3 py-2.5 bg-surface border border-card-border rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition"
+            className="w-full px-3 py-2.5 bg-surface border border-card-border rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition min-h-[44px]"
           >
             {Object.keys(TOKENS).map((sym) => (
               <option key={sym} value={sym}>{TOKENS[sym as TokenSymbol].name} ({sym})</option>
@@ -146,22 +148,24 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
         </div>
 
         <div>
-          <label className="block text-[10px] text-muted uppercase tracking-wider mb-1.5 font-medium">Amount</label>
+          <label htmlFor="op-amount" className="block text-[10px] text-muted uppercase tracking-wider mb-1.5 font-medium">Amount</label>
           <input
+            id="op-amount"
             type="text"
             inputMode="decimal"
             autoComplete="off"
             value={amount}
             onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ''))}
             placeholder="0.00"
-            className="w-full px-3 py-2.5 bg-surface border border-card-border rounded-lg text-foreground placeholder:text-muted/50 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition"
+            className="w-full px-3 py-2.5 bg-surface border border-card-border rounded-lg text-foreground placeholder:text-muted/50 text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 transition min-h-[44px]"
           />
         </div>
 
         {(activeOp === 'transfer' || activeOp === 'unshield') && (
           <div>
-            <label className="block text-[10px] text-muted uppercase tracking-wider mb-1.5 font-medium">Recipient Address</label>
+            <label htmlFor="op-recipient" className="block text-[10px] text-muted uppercase tracking-wider mb-1.5 font-medium">Recipient Address</label>
             <input
+              id="op-recipient"
               type="text"
               autoCapitalize="none"
               autoComplete="off"
@@ -170,7 +174,7 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
               placeholder="0x..."
-              className="w-full px-3 py-2.5 bg-surface border border-card-border rounded-lg text-foreground placeholder:text-muted/50 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-accent/50 transition"
+              className="w-full px-3 py-2.5 bg-surface border border-card-border rounded-lg text-foreground placeholder:text-muted/50 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-accent/50 transition min-h-[44px]"
             />
           </div>
         )}
@@ -202,9 +206,9 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
         )}
 
         <button
-          onClick={handleSubmit}
+          type="submit"
           disabled={!account || !amount || isSubmitting}
-          className="w-full px-4 py-3 text-background font-bold rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 text-sm flex items-center justify-center gap-2"
+          className="press-scale w-full px-4 py-3 text-background font-bold rounded-lg transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:opacity-50 text-sm flex items-center justify-center gap-2"
           style={{ background: 'var(--accent-gradient)' }}
         >
           {isSubmitting ? (
@@ -212,7 +216,7 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
           ) : !poolAvailable ? 'Coming Soon'
           : !account ? 'Connect Wallet' : OPS[activeOp].title}
         </button>
-      </div>
+      </form>
     </div>
   );
 }
