@@ -74,7 +74,8 @@ veilfolio/
 │   │   └── PortfolioContext.tsx     # Portfolio state + chain-aware balance
 │   ├── lib/
 │   │   ├── strk20.ts               # STRK20 SDK, identity ops, balance, tx history
-│   │   └── contracts.ts            # Contract addresses + ABIs
+│   │   ├── contracts.ts            # Contract addresses + ABIs
+│   │   └── sounds.ts               # Web Audio UI sound effects (no assets)
 │   └── providers/
 │       ├── StarknetProvider.tsx     # Multi-chain provider (mainnet + sepolia)
 │       └── ThemeProvider.tsx        # Dark / Light / System toggle
@@ -124,7 +125,8 @@ STRK20 privacy pool helper contract.
 - **Dashboard** (`/`) — Wallet balance with animated counters, identity grid with numbered cards, stat pills, connect/disconnect
 - **Create Identity** (`/identity/new`) — 5-step wizard: Type > Name > Privacy > Confirm > Done
 - **Identity Detail** (`/identity/[id]`) — Balance card, quick actions (Shield/Transfer/Unshield), shielded mode toggle, on-chain details, privacy operations modal, activity tab, settings (activate/deactivate)
-- **Privacy Center** (`/privacy`) — Education on what STRK20 protects, what remains public, the privacy model, and limitations
+- **Privacy Center** (`/privacy`) — The cryptography, science and vision behind STRK20: the founder's story, the STARK proof system, post-quantum security, Cairo, what "private" means in practice, limitations, and 10 primary sources
+- **Architecture** (`/architecture`) — The 5-layer design, the Cairo contracts, and why the stack is post-quantum-secure by architecture
 
 ### Key Features
 
@@ -136,6 +138,7 @@ STRK20 privacy pool helper contract.
 - **Privacy operations** — In-page modal popups for Shield, Private Transfer, Unshield with pre-selected tabs
 - **Transaction history** — Fetches ERC-20 Transfer events from RPC with felt252 normalization
 - **Coming Soon banner** — Gracefully shows STRK20 pool status when not deployed on current network
+- **UI sound effects** — Synthesized Web Audio tones (clicks, pops, success/error arpeggios) with a mute toggle, persisted in localStorage
 - **Responsive design** — Mobile-first with touch-friendly targets (min 44px), adaptive layouts
 
 ### Wallet Balance
@@ -166,6 +169,24 @@ Handles all RPC response formats: `{low, high}` u256 structs, flat BigInt, numbe
 - Block-level metadata and timing correlations
 
 Veilfolio stores **nothing server-side**. All identity metadata stays in your browser's localStorage.
+
+## The Cryptography Behind It
+
+Veilfolio rides on the cryptography that StarkWare built — and inherits its post-quantum posture.
+
+### STARK proofs
+
+STRK20 shields every operation with a **STARK** proof (Scalable Transparent Argument of Knowledge), introduced by Eli Ben-Sasson, Iddo Bentov, Lior Horesh and Michael Riabzev in the paper *[Scalable, Transparent, and Post-Quantum Secure Computational Integrity](https://eprint.iacr.org/2018/046)*. STARKs verify in polylogarithmic time, need **no trusted setup**, and run on **hash functions only** — which is exactly what makes them post-quantum.
+
+### Post-quantum by architecture
+
+Most chains rest on elliptic curves, breakable by Shor's algorithm (exponential speedup on a quantum computer). STARKs use only hashes, which a quantum computer attacks with at worst a quadratic (Grover's) speedup — a structural, not bolted-on, advantage. StarkWare's roadmap (June 2026) is already replacing Pedersen hashes and signatures with post-quantum primitives while coordinating the Layer-1 ECDSA migration — "changing an airplane's engine mid-flight," in Ben-Sasson's words.
+
+### Cairo: programs that prove themselves
+
+Our contracts — the IdentityManager and the Anonymizer — are written in **Cairo 2024_07**, the language from the *[Cairo: A Turing-Complete STARK-Friendly CPU Architecture](https://eprint.iacr.org/2021/1063)* paper. As the [Cairo Book](https://www.starknet.io/cairo-book/) puts it, echoing C.S. Lewis: Cairo is "the crypto-community's answer" to *doing the right thing, even when no one is watching*.
+
+Primary sources and deep dives — including the founder's vision ([Eli Ben-Sasson](https://x.com/EliBenSasson)) and the Nightfall institutional-privacy integration — are collected in the app's **Privacy Center** (`/privacy`).
 
 ## Testing
 
