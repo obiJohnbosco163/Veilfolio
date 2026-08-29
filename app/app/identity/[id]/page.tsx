@@ -8,6 +8,7 @@ import { WalletBar } from '@/components/WalletBar';
 import { PrivacyOperations } from '@/components/PrivacyOperations';
 import { useAccount } from '@starknet-react/core';
 import { useState, useEffect } from 'react';
+import { sfx } from '@/lib/sounds';
 
 const TYPE_ICONS: Record<string, string> = {
   TRADING: 'M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z',
@@ -159,7 +160,9 @@ export default function IdentityDetailPage() {
     setToggleError(null);
     try {
       await toggleIdentity(identity.id, !identity.is_active);
+      sfx.toggle(!identity.is_active);
     } catch (err: any) {
+      sfx.error();
       console.error('Failed to toggle identity:', err);
       const msg = err?.message || err?.toString() || 'Transaction failed';
       setToggleError(msg.includes('User reject') ? 'Transaction rejected by user' : 'Failed to update identity status. Check your wallet for details.');
@@ -171,7 +174,7 @@ export default function IdentityDetailPage() {
       <WalletBar />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Back */}
-        <button onClick={() => router.push('/')} className="text-muted hover:text-foreground mb-6 flex items-center gap-2 text-sm font-medium transition animate-fade-in">
+        <button onClick={() => router.push('/')} className="text-muted hover:text-foreground mb-6 flex items-center gap-2 text-sm font-medium transition-colors animate-fade-in">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
           </svg>
@@ -261,7 +264,7 @@ export default function IdentityDetailPage() {
                       return (
                         <button
                           key={feature.title}
-                          onClick={() => setModalOp(op as 'shield' | 'transfer' | 'unshield')}
+                          onClick={() => { sfx.pop(); setModalOp(op as 'shield' | 'transfer' | 'unshield'); }}
                           className={`group p-4 bg-card border ${feature.border} rounded-xl hover-lift cursor-pointer text-center`}
                         >
                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2 bg-gradient-to-br ${feature.bg}`}>
@@ -292,6 +295,7 @@ export default function IdentityDetailPage() {
                     </div>
                     <button
                       onClick={() => toggleShieldedMode(identityId, !identity.shieldedMode)}
+                      onMouseDown={() => sfx.toggle(!identity.shieldedMode)}
                       className={`shield-toggle ${identity.shieldedMode ? 'active' : ''}`}
                       aria-label="Toggle shielded mode"
                     >
@@ -506,7 +510,7 @@ export default function IdentityDetailPage() {
             {/* Actions */}
             <div className="pt-6 border-t border-card-border flex gap-3 flex-wrap">
               <button
-                onClick={() => setShowPrivacyOps(!showPrivacyOps)}
+                onClick={() => { sfx.pop(); setShowPrivacyOps(!showPrivacyOps); }}
                 className="press-scale px-5 py-2.5 text-background rounded-xl font-bold transition-transform hover:scale-[1.02] text-sm flex items-center gap-2"
                 style={{ background: 'var(--accent-gradient)' }}
               >
@@ -603,7 +607,7 @@ export default function IdentityDetailPage() {
                       : 'Unshielding will be available once the STRK20 privacy pool is deployed on Sepolia.'}
                   </p>
                   <button
-                    onClick={() => setModalOp(null)}
+                    onClick={() => { sfx.click(); setModalOp(null); }}
                     className="press-scale mt-6 px-5 py-2.5 rounded-xl text-sm font-semibold text-background transition-opacity hover:opacity-90"
                     style={{ background: 'var(--accent-gradient)' }}
                   >

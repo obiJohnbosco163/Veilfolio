@@ -1,10 +1,39 @@
 'use client';
 
 import { useConnect, useAccount, useDisconnect } from '@starknet-react/core';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTheme } from '@/providers/ThemeProvider';
+import { sfx, isSoundEnabled, setSoundEnabled } from '@/lib/sounds';
+
+function SoundToggle() {
+  const [on, setOn] = useState(isSoundEnabled());
+
+  const toggle = () => {
+    const next = !on;
+    setOn(next);
+    setSoundEnabled(next);
+    if (next) sfx.pop();
+  };
+
+  return (
+    <button
+      onClick={toggle}
+      className="relative w-9 h-9 rounded-lg flex items-center justify-center text-muted hover:text-foreground hover:bg-white/5 dark:hover:bg-white/5 transition-colors duration-150"
+      title={on ? 'Mute sounds' : 'Enable sounds'}
+      aria-label="Toggle sound effects"
+      aria-pressed={on}
+    >
+      <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+        {!on && (
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 3l18 18" className="text-danger" />
+        )}
+      </svg>
+    </button>
+  );
+}
 
 function ThemeToggle() {
   const { resolvedTheme, setTheme, theme } = useTheme();
@@ -13,12 +42,13 @@ function ThemeToggle() {
     const order: Array<'dark' | 'light' | 'system'> = ['dark', 'light', 'system'];
     const idx = order.indexOf(theme);
     setTheme(order[(idx + 1) % 3]);
+    sfx.click();
   };
 
   return (
     <button
       onClick={cycle}
-      className="relative w-9 h-9 rounded-lg flex items-center justify-center text-muted hover:text-foreground hover:bg-white/5 dark:hover:bg-white/5 transition-all duration-200"
+      className="relative w-9 h-9 rounded-lg flex items-center justify-center text-muted hover:text-foreground hover:bg-white/5 dark:hover:bg-white/5 transition-colors duration-150"
       title={`Theme: ${theme}${theme === 'system' ? ` (${resolvedTheme})` : ''}`}
     >
       {theme === 'system' ? (
@@ -66,6 +96,7 @@ export function WalletBar() {
             Privacy
           </Link>
 
+          <SoundToggle />
           <ThemeToggle />
 
           {isConnected && address ? (
@@ -76,8 +107,8 @@ export function WalletBar() {
                 <span className="sm:hidden">{address?.slice(0, 4)}...{address?.slice(-2)}</span>
               </div>
               <button
-                onClick={() => disconnect()}
-                className="px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-medium text-danger/80 hover:text-danger hover:bg-danger/10 rounded-lg transition-all duration-200 min-h-[44px]"
+                onClick={() => { sfx.disconnect(); disconnect(); }}
+                className="px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-medium text-danger/80 hover:text-danger hover:bg-danger/10 rounded-lg transition-colors duration-150 min-h-[44px]"
               >
                 <span className="hidden sm:inline">Disconnect</span>
                 <svg className="sm:hidden w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -90,7 +121,7 @@ export function WalletBar() {
               {connectors.map((connector) => (
                 <button
                   key={connector.id}
-                  onClick={() => connect({ connector })}
+                  onClick={() => { if (!isPending) { sfx.connect(); connect({ connector }); } }}
                   disabled={isPending}
                   className="press-scale px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-background rounded-lg transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-[44px]"
                   style={{ background: 'var(--accent-gradient)' }}

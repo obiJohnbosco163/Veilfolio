@@ -5,6 +5,7 @@ import { useAccount } from '@starknet-react/core';
 import { shield, privateTransfer, unshield } from '@/lib/strk20';
 import { TOKENS, STRK20_PRIVACY_POOL_ADDRESS, type TokenSymbol } from '@/lib/contracts';
 import { usePortfolio, type IdentityMetadata } from '@/context/PortfolioContext';
+import { sfx } from '@/lib/sounds';
 
 type Operation = 'shield' | 'transfer' | 'unshield';
 
@@ -44,6 +45,7 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
     setIsSubmitting(true);
     setError(null);
     setTxHash(null);
+    sfx.submit();
 
     try {
       if (parseFloat(amount) <= 0) throw new Error('Amount must be greater than zero');
@@ -62,6 +64,7 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
       }
 
       setTxHash(hash);
+      sfx.success();
       if (identityId) {
         addActivity(identityId, {
           id: `act_${Date.now()}`,
@@ -75,6 +78,7 @@ export function PrivacyOperations({ identityId, initialOp }: { identityId?: stri
       setAmount('');
       setRecipient('');
     } catch (err: any) {
+      sfx.error();
       const msg = err?.message || 'Transaction failed';
       if (msg.includes('User abort') || msg.includes('cancelled') || msg.includes('user rejected')) {
         setError('Transaction was cancelled in your wallet.');
