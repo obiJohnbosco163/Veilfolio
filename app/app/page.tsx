@@ -4,7 +4,7 @@ import { usePortfolio } from '@/context/PortfolioContext';
 import { useAccount } from '@starknet-react/core';
 import { WalletBar } from '@/components/WalletBar';
 import { IdentityCard } from '@/components/IdentityCard';
-import { DashboardBackground } from '@/components/DashboardBackground';
+import { AmbientBackground } from '@/components/AmbientBackground';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
@@ -60,7 +60,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background relative">
-      <DashboardBackground />
+      <AmbientBackground />
       <WalletBar />
 
       <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
@@ -72,31 +72,31 @@ export default function Home() {
               <div className="absolute -inset-32 bg-gradient-to-b from-accent/8 via-transparent to-transparent rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/8 border border-accent/15 text-accent text-[11px] font-medium mb-6 tracking-wide uppercase">
+                <div data-reveal className="reveal-target inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/8 border border-accent/15 text-accent text-[11px] font-medium mb-6 tracking-wide uppercase">
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                   </svg>
                   Veilfolio
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl font-bold mb-4 leading-[1.1] tracking-tight">
+                <h1 data-reveal data-reveal-delay="80" className="reveal-target text-4xl sm:text-5xl font-bold mb-4 leading-[1.1] tracking-tight">
                   <span className="gradient-text">Your portfolio.</span>
                   <br />
                   <span className="text-foreground">Your identities.</span>
                 </h1>
 
-                <p className="text-sm sm:text-base text-muted max-w-md mx-auto leading-relaxed mb-10">
+                <p data-reveal data-reveal-delay="160" className="reveal-target text-sm sm:text-base text-muted max-w-md mx-auto leading-relaxed mb-10">
                   Private by design. Create isolated identities, shield your DeFi activity, and manage your portfolio on Starknet.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <div data-reveal data-reveal-delay="240" className="reveal-target flex flex-col sm:flex-row gap-3 justify-center">
                   <Link
                     href="/identity/new"
-                    className="press-scale inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/20"
+                    className="group press-scale inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/20"
                     style={{ background: 'var(--accent-gradient)' }}
                   >
                     Get started
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <svg className="cta-nudge w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                     </svg>
                   </Link>
@@ -111,9 +111,9 @@ export default function Home() {
             </div>
 
             {/* Features — nestor.name.ng numbered layout */}
-            <div className="w-full max-w-2xl space-y-0 stagger-reveal">
+            <div className="w-full max-w-2xl space-y-0">
               {WHY_FEATURES.map((feat, i) => (
-                <div key={feat.num} className="numbered-section group py-6 sm:py-7 cursor-default">
+                <div key={feat.num} data-reveal data-reveal-delay={i * 90} className="reveal-target numbered-section group py-6 sm:py-7 cursor-default">
                   <span className="section-number">{feat.num}</span>
                   {i < WHY_FEATURES.length - 1 && <div className="section-line" />}
                   <div className="flex items-start gap-4">
@@ -148,29 +148,32 @@ export default function Home() {
                 </div>
                 <Link
                   href="/identity/new"
-                  className="press-scale inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/15 shrink-0"
+                  className="group press-scale inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02] hover:shadow-lg hover:shadow-accent/15 shrink-0"
                   style={{ background: 'var(--accent-gradient)' }}
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
                   New Identity
+                  <svg className="cta-nudge w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                  </svg>
                 </Link>
               </div>
 
               {/* Compact stat pills */}
               <div className="flex flex-wrap gap-2 mt-5">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
+                <div data-reveal data-reveal-delay="120" className="reveal-target inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent" />
                   <span className="text-muted">Identities</span>
                   <span className="font-semibold text-foreground tnum">{identities.length}</span>
                 </div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
+                <div data-reveal data-reveal-delay="200" className="reveal-target inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-secondary" />
                   <span className="text-muted">Identity Value</span>
                   <span className="font-semibold text-foreground tnum">{parseFloat(totalIdentityBalance).toFixed(2)} STRK</span>
                 </div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
+                <div data-reveal data-reveal-delay="280" className="reveal-target inline-flex items-center gap-2 px-3 py-1.5 bg-surface border border-card-border/60 rounded-lg text-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-blue" />
                   <span className="text-muted">Active</span>
                   <span className="font-semibold text-foreground tnum">{identities.filter(i => i.is_active).length}</span>
@@ -188,7 +191,7 @@ export default function Home() {
             )}
 
             {/* Section header */}
-            <div className="flex items-center justify-between mb-5">
+            <div data-reveal className="reveal-target flex items-center justify-between mb-5">
               <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
                 Identities
                 {identities.length > 0 && (
@@ -226,11 +229,11 @@ export default function Home() {
                 <p className="text-muted text-sm mb-6 max-w-xs mx-auto">Create your first identity to start managing your portfolio privately.</p>
                 <Link
                   href="/identity/new"
-                  className="press-scale inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02]"
+                  className="group press-scale inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-background rounded-xl transition-transform hover:scale-[1.02]"
                   style={{ background: 'var(--accent-gradient)' }}
                 >
                   Create your first identity
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <svg className="cta-nudge w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                   </svg>
                 </Link>

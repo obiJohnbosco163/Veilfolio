@@ -5,6 +5,7 @@ import { IDENTITY_TYPE_LABEL, humanReadableIdentityName } from '@/lib/strk20';
 import { IDENTITY_MANAGER_ADDRESS } from '@/lib/contracts';
 import { useParams, useRouter } from 'next/navigation';
 import { WalletBar } from '@/components/WalletBar';
+import { AmbientBackground } from '@/components/AmbientBackground';
 import { PrivacyOperations } from '@/components/PrivacyOperations';
 import { useAccount } from '@starknet-react/core';
 import { useState, useEffect } from 'react';
@@ -122,8 +123,9 @@ export default function IdentityDetailPage() {
   if (!identity) {
     return (
       <div className="min-h-screen bg-background">
+        <AmbientBackground pattern={false} />
         <WalletBar />
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+        <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-12">
           <div className="text-center py-20 animate-fade-in">
             <div
               className="w-16 h-16 mx-auto mb-5 rounded-2xl flex items-center justify-center"
@@ -171,8 +173,9 @@ export default function IdentityDetailPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <AmbientBackground pattern={false} />
       <WalletBar />
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Back */}
         <button onClick={() => router.push('/')} className="text-muted hover:text-foreground mb-6 flex items-center gap-2 text-sm font-medium transition-colors animate-fade-in">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -259,13 +262,15 @@ export default function IdentityDetailPage() {
                 <div>
                   <h3 className="text-sm font-semibold text-foreground mb-3">Quick Actions</h3>
                   <div className="grid grid-cols-3 gap-3">
-                    {STRK20_FEATURES.map((feature) => {
+                    {STRK20_FEATURES.map((feature, i) => {
                       const op = feature.title === 'Shield' ? 'shield' : feature.title === 'Private Transfer' ? 'transfer' : 'unshield';
                       return (
                         <button
                           key={feature.title}
+                          data-reveal
+                          data-reveal-delay={i * 90}
                           onClick={() => { sfx.pop(); setModalOp(op as 'shield' | 'transfer' | 'unshield'); }}
-                          className={`group p-4 bg-card border ${feature.border} rounded-xl hover-lift cursor-pointer text-center`}
+                          className={`reveal-target group p-4 bg-card border ${feature.border} rounded-xl hover-lift cursor-pointer text-center`}
                         >
                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2 bg-gradient-to-br ${feature.bg}`}>
                             <svg className={`w-5 h-5 ${feature.accent}`} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -280,7 +285,7 @@ export default function IdentityDetailPage() {
                 </div>
 
                 {/* Shielded Mode + Status Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div data-reveal className="reveal-target grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="bg-card border border-card-border rounded-xl p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${identity.shieldedMode ? 'bg-accent/10' : 'bg-surface'}`}>
@@ -329,7 +334,7 @@ export default function IdentityDetailPage() {
                 </div>
 
                 {/* On-Chain Details */}
-                <div>
+                <div data-reveal className="reveal-target">
                   <h3 className="text-sm font-semibold text-foreground mb-3">On-Chain Details</h3>
                   <div className="bg-card border border-card-border rounded-xl divide-y divide-card-border">
                     <div className="flex justify-between items-center px-4 py-3">

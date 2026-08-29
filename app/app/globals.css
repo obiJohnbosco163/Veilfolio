@@ -432,6 +432,89 @@ html.light ::-webkit-scrollbar-track { background: #f1f5f9; }
   animation: shimmer-slide 1.5s ease-in-out infinite;
 }
 
+/* ── Animated ambient aurora ── */
+@keyframes aurora-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(48px, -36px, 0) scale(1.12); }
+  66% { transform: translate3d(-36px, 24px, 0) scale(0.95); }
+}
+@keyframes aurora-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  40% { transform: translate3d(-56px, 44px, 0) scale(1.16); }
+  70% { transform: translate3d(32px, -24px, 0) scale(0.92); }
+}
+@keyframes aurora-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(40px, 36px, 0) scale(1.1); }
+}
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(100px);
+  will-change: transform;
+}
+.aurora-a { animation: aurora-a 28s var(--ease-quart) infinite alternate; }
+.aurora-b { animation: aurora-b 36s var(--ease-quart) infinite alternate; }
+.aurora-c { animation: aurora-c 24s var(--ease-quart) infinite alternate; }
+
+/* ── Scroll reveal (driven by AmbientBackground observer) ── */
+.reveal-target {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s var(--ease-quart), transform 0.7s var(--ease-quart);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal-target.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Cursor spotlight on interactive cards ── */
+.spotlight-card { position: relative; }
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in srgb, var(--accent) 9%, transparent),
+    transparent 45%
+  );
+}
+.spotlight-card:hover::before { opacity: 1; }
+
+/* ── Elevated sticky bar (after scroll) ── */
+.bar-elevated {
+  background-color: color-mix(in srgb, var(--card) 88%, transparent);
+  box-shadow: var(--card-shadow);
+}
+html.light .bar-elevated { background-color: rgba(255, 255, 255, 0.86); }
+
+/* ── CTA arrow nudge ── */
+.cta-nudge { transition: transform 0.3s var(--ease-quart); }
+.group:hover .cta-nudge { transform: translateX(4px); }
+
+/* ── Scroll progress indicator ── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-gradient);
+  transform-origin: left;
+  transform: scaleX(0);
+  pointer-events: none;
+  z-index: 60;
+  will-change: transform;
+}
+
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -440,4 +523,6 @@ html.light ::-webkit-scrollbar-track { background: #f1f5f9; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .reveal-target { opacity: 1; transform: none; transition: none; }
+  .scroll-progress { display: none; }
 }

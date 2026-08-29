@@ -1,7 +1,7 @@
 'use client';
 
 import { useConnect, useAccount, useDisconnect } from '@starknet-react/core';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useTheme } from '@/providers/ThemeProvider';
@@ -72,6 +72,14 @@ export function WalletBar() {
   const { connectors, connect, isPending } = useConnect();
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const shortenedAddress = useMemo(() => {
     if (!address) return null;
@@ -79,7 +87,7 @@ export function WalletBar() {
   }, [address]);
 
   return (
-    <nav className="sticky top-0 z-50 glass border-b border-card-border/50">
+    <nav className={`sticky top-0 z-50 glass border-b border-card-border/50 transition-[background-color,box-shadow,border-color] duration-300 ${scrolled ? 'bar-elevated' : ''}`}>
       <div className="flex items-center justify-between px-4 sm:px-6 py-3 max-w-7xl mx-auto">
         <Link href="/" className="flex items-center gap-2.5 group">
           <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-accent/30 group-hover:ring-accent/60 transition-all duration-300">

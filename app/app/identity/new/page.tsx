@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { usePortfolio, type IdentityType } from '@/context/PortfolioContext';
 import { WalletBar } from '@/components/WalletBar';
+import { AmbientBackground } from '@/components/AmbientBackground';
 import { useAccount } from '@starknet-react/core';
 import { useState } from 'react';
 import { sfx } from '@/lib/sounds';
@@ -55,8 +56,9 @@ export default function CreateIdentityPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <AmbientBackground pattern={false} />
       <WalletBar />
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <main className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="bg-card border border-card-border rounded-2xl p-6 sm:p-8 animate-fade-in-up">
           {/* Step indicator */}
           <div className="flex items-center justify-between mb-8">

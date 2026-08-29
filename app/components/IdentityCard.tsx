@@ -59,7 +59,14 @@ export function IdentityCard({ identity, index }: { identity: ExecutionIdentity;
 
   return (
     <Link href={`/identity/${identity.id.toString()}`}>
-      <div className="group relative numbered-card bg-card border border-card-border/60 rounded-2xl p-5 hover-lift cursor-pointer overflow-hidden hover:border-accent/15">
+      <div
+        className="spotlight-card group relative numbered-card bg-card border border-card-border/60 rounded-2xl p-5 hover-lift cursor-pointer overflow-hidden hover:border-accent/15"
+        onMouseMove={(e) => {
+          const r = e.currentTarget.getBoundingClientRect();
+          e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
+          e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
+        }}
+      >
         {/* Top row: number + type dot + name + status */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-start gap-3">

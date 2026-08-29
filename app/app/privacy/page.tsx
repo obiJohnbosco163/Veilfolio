@@ -1,6 +1,7 @@
 'use client';
 
 import { WalletBar } from '@/components/WalletBar';
+import { AmbientBackground } from '@/components/AmbientBackground';
 
 const SOURCES = [
   {
@@ -58,8 +59,9 @@ const SOURCES = [
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-background">
+      <AmbientBackground pattern={false} />
       <WalletBar />
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="mb-10 animate-fade-in-up">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
             <span className="gradient-text">Privacy Center</span>
@@ -83,7 +85,7 @@ export default function PrivacyPage() {
         </div>
 
         {/* The Vision: founder section */}
-        <section className="mb-12 animate-fade-in-up">
+        <section className="mb-12 animate-fade-in-up reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">The Vision Behind the Layer</h2>
           <div className="p-6 bg-card border border-card-border rounded-xl space-y-5">
             <div className="flex items-start gap-3">
@@ -121,7 +123,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* The Math */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">The Math of Privacy: STARK Proofs</h2>
           <div className="space-y-4">
             <div className="p-6 bg-card border border-card-border rounded-xl">
@@ -164,7 +166,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* Post-quantum */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">Post-Quantum Security: Built-In, Not Bolted On</h2>
           <div className="p-6 bg-accent-secondary/5 border border-accent-secondary/20 rounded-xl space-y-4">
             <h3 className="font-semibold text-accent-secondary mb-1">Why quantum computers threaten most chains</h3>
@@ -191,7 +193,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* Cairo */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">Cairo: Programs That Prove Themselves</h2>
           <div className="p-6 bg-card border border-card-border rounded-xl">
             <p className="text-sm text-muted leading-relaxed mb-4">
@@ -208,7 +210,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* Privacy model — STRK20 */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">The Privacy Model, In Practice</h2>
           <div className="space-y-4">
             {[
@@ -252,7 +254,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* What STRK20 protects / remains public */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">Exactly What &ldquo;Private&rdquo; Means Here</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-6 bg-accent/5 border border-accent/20 rounded-xl">
@@ -275,7 +277,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* Storage */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">What Veilfolio Stores</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-6 bg-card border border-card-border rounded-xl">
@@ -298,7 +300,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* Limitations */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">Privacy Limitations, Stated Honestly</h2>
           <div className="p-6 bg-danger/5 border border-danger/20 rounded-xl">
             <h3 className="font-semibold text-danger mb-3">What Veilfolio Cannot Protect Against</h3>
@@ -311,7 +313,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* Future */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">What Comes Next</h2>
           <div className="space-y-4">
             <div className="p-6 bg-accent-secondary/5 border border-accent-secondary/20 rounded-xl">
@@ -334,7 +336,7 @@ export default function PrivacyPage() {
         </section>
 
         {/* Sources */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">Sources &amp; Further Reading</h2>
           <div className="space-y-2">
             {SOURCES.map((s) => (

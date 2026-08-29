@@ -1,13 +1,15 @@
 'use client';
 
 import { WalletBar } from '@/components/WalletBar';
+import { AmbientBackground } from '@/components/AmbientBackground';
 
 export default function ArchitecturePage() {
   return (
     <div className="min-h-screen bg-background">
+      <AmbientBackground pattern={false} />
       <WalletBar />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="mb-10 animate-fade-in-up">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
             <span className="gradient-text">Architecture</span>
@@ -35,7 +37,7 @@ export default function ArchitecturePage() {
         </div>
 
         {/* Layer 1: User Wallet */}
-        <section className="mb-12 animate-fade-in-up">
+        <section className="mb-12 animate-fade-in-up reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-2">Layer 1: User Wallet</h2>
           <p className="text-sm text-muted mb-5">The keys never leave your custody.</p>
           <div className="p-6 bg-card border border-card-border rounded-xl space-y-4">
@@ -52,7 +54,7 @@ export default function ArchitecturePage() {
         </section>
 
         {/* Layer 2: STRK20 Privacy */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-2">Layer 2: STRK20 Privacy Layer</h2>
           <p className="text-sm text-muted mb-5">Zero-knowledge shielding, transfers and unshielding.</p>
           <div className="p-6 bg-card border border-card-border rounded-xl space-y-4">
@@ -83,7 +85,7 @@ export default function ArchitecturePage() {
         </section>
 
         {/* Layer 3: Execution Identity Manager */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-2">Layer 3: Execution Identity Manager</h2>
           <p className="text-sm text-muted mb-5">The core innovation: portfolio buckets that separate strategy, venue and execution context.</p>
           <div className="p-6 bg-card border border-card-border rounded-xl space-y-4">
@@ -113,7 +115,7 @@ export default function ArchitecturePage() {
         </section>
 
         {/* Layer 4: Portfolio Aggregation */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-2">Layer 4: Portfolio Aggregation Engine</h2>
           <p className="text-sm text-muted mb-5">One unified view across private buckets.</p>
           <div className="p-6 bg-card border border-card-border rounded-xl space-y-4">
@@ -132,7 +134,7 @@ export default function ArchitecturePage() {
         </section>
 
         {/* Layer 5: Mainnet Execution */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-2">Layer 5: Mainnet Execution</h2>
           <p className="text-sm text-muted mb-5">Real operations, real proofs, real transactions.</p>
           <div className="p-6 bg-card border border-card-border rounded-xl space-y-4">
@@ -145,7 +147,7 @@ export default function ArchitecturePage() {
         </section>
 
         {/* Under the hood: STARKs, Cairo, Post-quantum */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">Under the Hood: STARKs, Cairo &amp; Post-Quantum Security</h2>
           <div className="space-y-4">
             <div className="p-6 bg-card border border-card-border rounded-xl">
@@ -179,7 +181,7 @@ export default function ArchitecturePage() {
         </section>
 
         {/* Data Flow */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-2">Core Data Flow: Funding an Execution Identity</h2>
           <p className="text-sm text-muted mb-5">Wallet → pool (public) → private note (shielded).</p>
           <div className="p-6 bg-card border border-card-border rounded-xl">
@@ -206,7 +208,7 @@ export default function ArchitecturePage() {
         </section>
 
         {/* Future Evolution */}
-        <section className="mb-12">
+        <section className="mb-12 reveal-target" data-reveal>
           <h2 className="text-xl font-bold text-foreground mb-5">Future Evolution: Native Private Sub-Accounts</h2>
           <div className="p-6 rounded-xl space-y-4 border border-accent-secondary/30" style={{ background: 'linear-gradient(135deg, rgba(124,92,252,0.08), rgba(0,212,170,0.05))' }}>
             <p className="text-sm text-foreground">
